@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "650749182192",
+    "project_id": "doctorsalah-a7987",
+    "storage_bucket": "doctorsalah-a7987.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650749182192:android:6452d0eb721c1145b18235",
+        "android_client_info": {
+          "package_name": "com.doubleclick.doctor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "650749182192-of9dsmcb6s1j0a1cn21k5vp9t1l4r7or.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrON96_sjHP5tjql28azblYDNzWekZzPs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "650749182192-of9dsmcb6s1j0a1cn21k5vp9t1l4r7or.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

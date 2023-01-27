@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav"
+    app:startDestination="@id/fragment_frist">
+
+    <fragment
+        android:id="@+id/fragment_frist"
+        android:name="com.doubleclick.doctor.fragment.FristFragment"
+        tools:layout="@layout/fragment_frist">
+        <action
+            android:id="@+id/action_fragment_frist_to_fragment_second"
+            app:destination="@id/fragment_second"
+            app:enterAnim="@anim/fadein"
+            app:exitAnim="@anim/fadeout"
+            app:popEnterAnim="@anim/fadein"
+            app:popExitAnim="@anim/fadeout" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_second"
+        android:name="com.doubleclick.doctor.fragment.SecondFragment"
+        tools:layout="@layout/fragment_second">
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_fragment_second_to_fragment_therd"
+            app:destination="@id/fragment_therd"
+            app:enterAnim="@anim/fadein"
+            app:exitAnim="@anim/fadeout"
+            app:popEnterAnim="@anim/fadein"
+            app:popExitAnim="@anim/fadeout" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_therd"
+        android:name="com.doubleclick.doctor.fragment.therdFragment"
+        tools:layout="@layout/fragment_therd" />
+
+</navigation>
