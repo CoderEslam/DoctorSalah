@@ -149,7 +149,7 @@
                 android:paddingStart="10dp" />
 
             <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
-                android:id="@+id/spinnerMenu"
+                android:id="@+id/_spinner_sub_parent_"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -160,9 +160,9 @@
                 app:smsp_hint="choose"
                 app:smsp_hintColor="@color/black"
                 app:smsp_itemColor="@color/black"
-                app:smsp_itemListColor="@color/white"
+                app:smsp_itemListColor="@color/black"
                 app:smsp_itemListHintBackgroundColor="#808080"
-                app:smsp_itemListHintColor="#FFFFFF"
+                app:smsp_itemListHintColor="@color/blue"
                 app:smsp_multilineError="false"
                 app:smsp_selectedItemListColor="@color/blue" />
 

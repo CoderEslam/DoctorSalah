@@ -1,14 +1,23 @@
 package com.doubleclick.doctor.fragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.doubleclick.doctor.R;
+import com.doubleclick.doctor.model.Description;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +34,13 @@ public class therdFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private WebView describtion;
+    private TextView title_;
+
+    private DatabaseReference reference;
+
+    private static final String TAG = "therdFragment";
+
 
     public therdFragment() {
         // Required empty public constructor
@@ -62,5 +78,40 @@ public class therdFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_therd, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        reference = FirebaseDatabase.getInstance().getReference();
+        describtion = view.findViewById(R.id.describtion);
+        title_ = view.findViewById(R.id.title_);
+
+        reference.child("Description").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Description description = dataSnapshot.getValue(Description.class);
+                    assert getArguments() != null;
+                    assert description != null;
+                    if (description.getSub_parent().equals(therdFragmentArgs.fromBundle(getArguments()).getName())) {
+                        describtion.loadDataWithBaseURL(
+                                null,
+                                description.getSub_description(),
+                                "text/html",
+                                "utf-8",
+                                null
+                        );
+                        title_.setText(description.getSub_title());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 }

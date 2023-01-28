@@ -22,6 +22,7 @@ import androidx.cardview.widget.CardView;
 
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.doubleclick.doctor.model.F1;
+import com.doubleclick.doctor.model.Sub;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,12 +43,15 @@ public class PanelActivity extends AppCompatActivity {
     private ImageView image;
     private ImageView image_upload;
     private CardView card_ask_photo;
-    private Button submit, submit_sub;
+    private Button submit, submit_sub, submit_final;
     private String menuOptionItemSelected;
+    private String menuOptionItemSelected_sub_parent;
     private SmartMaterialSpinner<String> _spinnerMenu_;
-    private EditText _title_sub_, title;
+    private SmartMaterialSpinner<String> _spinner_sub_parent_;
+    private EditText _title_sub_, title, sub_title, sub_description;
 
     private List<String> menuOption = new ArrayList<>();
+    private List<String> menuOption_sub_parent = new ArrayList<>();
 
 
     private static final String TAG = "PanelActivity";
@@ -66,7 +70,11 @@ public class PanelActivity extends AppCompatActivity {
         title = findViewById(R.id.title);
         submit = findViewById(R.id.submit);
         submit_sub = findViewById(R.id.submit_sub);
+        submit_final = findViewById(R.id.submit_final);
         _spinnerMenu_ = findViewById(R.id._spinnerMenu_);
+        _spinner_sub_parent_ = findViewById(R.id._spinner_sub_parent_);
+        sub_title = findViewById(R.id.sub_title);
+        sub_description = findViewById(R.id.sub_description);
 
         card_ask_photo.setOnClickListener(view -> {
             openImage();
@@ -78,14 +86,17 @@ public class PanelActivity extends AppCompatActivity {
         submit_sub.setOnClickListener(view -> {
             uploadImage();
         });
+        submit_final.setOnClickListener(view -> {
+            uploadTherd();
+        });
 
         spinnerScreen2();
+        spinnerScreen3();
 
 
     }
 
     private void spinnerScreen2() {
-
         reference.child("F1").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -119,6 +130,40 @@ public class PanelActivity extends AppCompatActivity {
         });
     }
 
+    private void spinnerScreen3() {
+        reference.child("Subs").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Sub sub = dataSnapshot.getValue(Sub.class);
+                    assert sub != null;
+                    menuOption_sub_parent.add(sub.getName());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(PanelActivity.this, android.R.layout.simple_spinner_item, menuOption_sub_parent);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                _spinner_sub_parent_.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                _spinner_sub_parent_.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        menuOptionItemSelected_sub_parent = menuOption_sub_parent.get(i);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                        menuOptionItemSelected_sub_parent = menuOption_sub_parent.get(0);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private void uploadFirst() {
         HashMap<String, Object> map = new HashMap<>();
         String id = reference.push().getKey() + System.currentTimeMillis();
@@ -126,6 +171,20 @@ public class PanelActivity extends AppCompatActivity {
         reference.child("F1").child(id).updateChildren(map);
         title.setText("");
         Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
+    }
+
+    private void uploadTherd() {
+        if (!sub_title.getText().toString().isEmpty() && !sub_description.getText().toString().isEmpty() && !menuOptionItemSelected_sub_parent.isEmpty()) {
+            HashMap<String, Object> map = new HashMap<>();
+            String id = reference.push().getKey() + System.currentTimeMillis();
+            map.put("sub_title", sub_title.getText().toString());
+            map.put("sub_description", sub_description.getText().toString());
+            map.put("sub_parent", menuOptionItemSelected_sub_parent);
+            reference.child("Description").child(id).updateChildren(map);
+            sub_title.setText("");
+            sub_description.setText("");
+            Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

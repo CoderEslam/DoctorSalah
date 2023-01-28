@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.doubleclick.doctor.Interface.SecondInterface;
 import com.doubleclick.doctor.R;
 import com.doubleclick.doctor.model.Sub;
 
@@ -19,9 +20,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SecondAdapter extends RecyclerView.Adapter<SecondAdapter.SecondViewHolder> {
 
     private ArrayList<Sub> subs = new ArrayList<>();
+    private SecondInterface secondInterface;
 
-    public SecondAdapter(ArrayList<Sub> subs) {
+
+    public SecondAdapter(ArrayList<Sub> subs, SecondInterface secondInterface) {
         this.subs = subs;
+        this.secondInterface = secondInterface;
     }
 
 
@@ -36,6 +40,9 @@ public class SecondAdapter extends RecyclerView.Adapter<SecondAdapter.SecondView
 
         holder.tv_sub_title.setText(subs.get(position).getName());
         Glide.with(holder.itemView.getContext()).load(subs.get(position).getImage()).into(holder.profile_image);
+        holder.itemView.setOnClickListener(view -> {
+            secondInterface.onItemSecond(subs.get(position).getName());
+        });
     }
 
     @Override

@@ -16,11 +16,11 @@ import com.doubleclick.doctor.Adapters.FirstAdapter;
 import com.doubleclick.doctor.Interface.FirstInterface;
 import com.doubleclick.doctor.R;
 import com.doubleclick.doctor.model.F1;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -91,34 +91,17 @@ public class FristFragment extends Fragment implements FirstInterface {
         rv_first = view.findViewById(R.id.rv_first);
         arrayList.clear();
         firstAdapter = new FirstAdapter(arrayList, FristFragment.this);
-        reference.child("F1").addChildEventListener(new ChildEventListener() {
+        reference.child("F1").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                F1 f1 = snapshot.getValue(F1.class);
-                assert f1 != null;
-                arrayList.add(f1.getF1());
-                firstAdapter.notifyDataSetChanged();
-                rv_first.setAdapter(firstAdapter);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                F1 f1 = snapshot.getValue(F1.class);
-                assert f1 != null;
-                arrayList.remove(f1.getF1());
-                firstAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    F1 f1 = dataSnapshot.getValue(F1.class);
+                    assert f1 != null;
+                    arrayList.add(f1.getF1());
+                    firstAdapter.notifyDataSetChanged();
+                    rv_first.setAdapter(firstAdapter);
+                }
             }
 
             @Override

@@ -1,5 +1,6 @@
 package com.doubleclick.doctor.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,16 +9,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.doubleclick.doctor.Adapters.SecondAdapter;
+import com.doubleclick.doctor.Interface.SecondInterface;
 import com.doubleclick.doctor.R;
 import com.doubleclick.doctor.model.Sub;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -26,7 +29,7 @@ import java.util.ArrayList;
  * Use the {@link SecondFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SecondFragment extends Fragment implements ChildEventListener {
+public class SecondFragment extends Fragment implements SecondInterface {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,6 +41,9 @@ public class SecondFragment extends Fragment implements ChildEventListener {
     private String mParam2;
     private RecyclerView rv_second;
     private DatabaseReference reference;
+    private SecondAdapter secondAdapter;
+    ArrayList<Sub> arrayListSubs = new ArrayList<>();
+
 
     public SecondFragment() {
         // Required empty public constructor
@@ -80,40 +86,36 @@ public class SecondFragment extends Fragment implements ChildEventListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        reference = FirebaseDatabase.getInstance().getReference().child("Subs");
-        reference.addChildEventListener(this);
+        reference = FirebaseDatabase.getInstance().getReference();
         rv_second = view.findViewById(R.id.rv_second);
-        ArrayList<Sub> arrayList = new ArrayList<>();
-        arrayList.add(new Sub("sbss","sbf","sdzbf","sfb"));
-        arrayList.add(new Sub("sbss","sbf","sdzbf","sfb"));
-        arrayList.add(new Sub("sbss","sbf","sdzbf","sfb"));
-        arrayList.add(new Sub("sbss","sbf","sdzbf","sfb"));
-        arrayList.add(new Sub("sbss", "sbf", "sdzbf", "sfb"));
-        rv_second.setAdapter(new SecondAdapter(arrayList));
-    }
+        arrayListSubs.clear();
+        secondAdapter = new SecondAdapter(arrayListSubs, this);
+        rv_second.setAdapter(secondAdapter);
+        reference.child("Subs").addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Sub sub = dataSnapshot.getValue(Sub.class);
+                    assert getArguments() != null;
+                    assert sub != null;
+                    if (sub.getNameParent().equals(SecondFragmentArgs.fromBundle(getArguments()).getId())) {
+                        arrayListSubs.add(sub);
+                    }
+                }
+                secondAdapter.notifyDataSetChanged();
+            }
 
-    @Override
-    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-    }
-
-    @Override
-    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-    }
-
-    @Override
-    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-    }
-
-    @Override
-    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            }
+        });
 
     }
 
     @Override
-    public void onCancelled(@NonNull DatabaseError error) {
-
+    public void onItemSecond(String pos) {
+        Navigation.findNavController(requireActivity(), R.id.nav_home_fragment).navigate(SecondFragmentDirections.actionFragmentSecondToFragmentTherd(pos));
     }
 }

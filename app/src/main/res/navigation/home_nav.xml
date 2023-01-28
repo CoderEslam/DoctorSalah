@@ -35,6 +35,10 @@
     <fragment
         android:id="@+id/fragment_therd"
         android:name="com.doubleclick.doctor.fragment.therdFragment"
-        tools:layout="@layout/fragment_therd" />
+        tools:layout="@layout/fragment_therd">
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
 
 </navigation>
