@@ -1,6 +1,7 @@
 package com.doubleclick.doctor.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.doubleclick.doctor.Adapters.FirstAdapter;
 import com.doubleclick.doctor.Interface.FirstInterface;
+import com.doubleclick.doctor.PanelActivity;
 import com.doubleclick.doctor.R;
 import com.doubleclick.doctor.model.F1;
 import com.google.firebase.database.DataSnapshot;
@@ -31,14 +33,7 @@ import java.util.ArrayList;
  */
 public class FristFragment extends Fragment implements FirstInterface {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private DatabaseReference reference;
     ArrayList<String> arrayList = new ArrayList<>();
     private FirstAdapter firstAdapter;
@@ -61,8 +56,6 @@ public class FristFragment extends Fragment implements FirstInterface {
     public static FristFragment newInstance(String param1, String param2) {
         FristFragment fragment = new FristFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,8 +64,7 @@ public class FristFragment extends Fragment implements FirstInterface {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -89,12 +81,12 @@ public class FristFragment extends Fragment implements FirstInterface {
         super.onViewCreated(view, savedInstanceState);
         reference = FirebaseDatabase.getInstance().getReference();
         rv_first = view.findViewById(R.id.rv_first);
-        arrayList.clear();
         firstAdapter = new FirstAdapter(arrayList, FristFragment.this);
         reference.child("F1").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                arrayList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     F1 f1 = dataSnapshot.getValue(F1.class);
                     assert f1 != null;
@@ -108,6 +100,10 @@ public class FristFragment extends Fragment implements FirstInterface {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+        });
+        view.findViewById(R.id.addConstraintLayout).setOnLongClickListener(view1 -> {
+            startActivity(new Intent(requireActivity(), PanelActivity.class));
+            return true;
         });
 
     }

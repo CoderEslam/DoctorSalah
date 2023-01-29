@@ -89,10 +89,8 @@ public class PanelActivity extends AppCompatActivity {
         submit_final.setOnClickListener(view -> {
             uploadTherd();
         });
-
         spinnerScreen2();
         spinnerScreen3();
-
 
     }
 

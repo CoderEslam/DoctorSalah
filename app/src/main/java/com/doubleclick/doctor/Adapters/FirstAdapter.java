@@ -16,12 +16,9 @@ import java.util.ArrayList;
 
 public class FirstAdapter extends RecyclerView.Adapter<FirstAdapter.FirstViewHolder> {
 
-    private ArrayList<String> arrayList = new ArrayList<>();
+    private ArrayList<String> arrayList ;
     private FirstInterface firstInterface;
 
-    public FirstAdapter(ArrayList<String> arrayList) {
-        this.arrayList = arrayList;
-    }
 
     public FirstAdapter(ArrayList<String> arrayList, FirstInterface firstInterface) {
         this.arrayList = arrayList;
@@ -41,7 +38,7 @@ public class FirstAdapter extends RecyclerView.Adapter<FirstAdapter.FirstViewHol
                     ConstraintLayout.LayoutParams.MATCH_PARENT,
                     ConstraintLayout.LayoutParams.WRAP_CONTENT
             );
-            layoutParams.setMargins(0, 150, 0, 0);
+            layoutParams.setMargins(0, 200, 0, 0);
             holder.constrain_parent.setLayoutParams(layoutParams);
         }
         holder.tv_title.setText(arrayList.get(position));
