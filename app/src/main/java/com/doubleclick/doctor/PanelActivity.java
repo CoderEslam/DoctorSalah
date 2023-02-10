@@ -41,7 +41,6 @@ public class PanelActivity extends AppCompatActivity {
     private final int IMAGE_REQUEST = 100;
     private Uri uri = null;
     private ImageView image;
-    private ImageView image_upload;
     private CardView card_ask_photo;
     private Button submit, submit_sub, submit_final;
     private String menuOptionItemSelected;
@@ -64,7 +63,6 @@ public class PanelActivity extends AppCompatActivity {
         setContentView(R.layout.activity_panel);
         reference = FirebaseDatabase.getInstance().getReference();
         image = findViewById(R.id.image);
-        image_upload = findViewById(R.id.image_upload);
         card_ask_photo = findViewById(R.id.card_ask_photo);
         _title_sub_ = findViewById(R.id._title_sub_);
         title = findViewById(R.id.title);
@@ -79,7 +77,6 @@ public class PanelActivity extends AppCompatActivity {
         card_ask_photo.setOnClickListener(view -> {
             openImage();
         });
-
         submit.setOnClickListener(view -> {
             uploadFirst();
         });

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".PanelActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -34,7 +35,8 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_fram"
                 android:hint="type"
-                android:paddingStart="10dp" />
+                android:paddingStart="10dp"
+                android:textColorHint="@color/grey" />
 
             <Button
                 android:id="@+id/submit"
@@ -93,7 +95,8 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_fram"
                 android:hint="type title"
-                android:paddingStart="10dp" />
+                android:paddingStart="10dp"
+                android:textColorHint="@color/grey" />
 
 
             <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
@@ -146,7 +149,8 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_fram"
                 android:hint="type title"
-                android:paddingStart="10dp" />
+                android:paddingStart="10dp"
+                android:textColorHint="@color/grey" />
 
             <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
                 android:id="@+id/_spinner_sub_parent_"
@@ -176,7 +180,8 @@
                 android:gravity="start"
                 android:hint="type description"
                 android:paddingStart="10dp"
-                android:paddingTop="10dp" />
+                android:paddingTop="10dp"
+                android:textColorHint="@color/grey" />
 
             <Button
                 android:id="@+id/submit_final"

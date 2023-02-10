@@ -1,7 +1,6 @@
 package com.doubleclick.doctor.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.doubleclick.doctor.Adapters.FirstAdapter;
 import com.doubleclick.doctor.Interface.FirstInterface;
-import com.doubleclick.doctor.PanelActivity;
 import com.doubleclick.doctor.R;
 import com.doubleclick.doctor.model.F1;
 import com.google.firebase.database.DataSnapshot;
@@ -101,11 +99,6 @@ public class FristFragment extends Fragment implements FirstInterface {
 
             }
         });
-        view.findViewById(R.id.addConstraintLayout).setOnLongClickListener(view1 -> {
-            startActivity(new Intent(requireActivity(), PanelActivity.class));
-            return true;
-        });
-
     }
 
     @Override
